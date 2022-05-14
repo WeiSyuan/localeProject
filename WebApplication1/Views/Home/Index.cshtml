@@ -1,0 +1,56 @@
+﻿@model IEnumerable<FruitModels>;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>目前語系 => @CultureModels.locale</p>
+    <p>顯示語言 => @HomeML.Lang</p>
+</div>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">@FruitML.水果名稱</th>
+            <th scope="col">@FruitML.數量</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>芭樂</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>香蕉</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>蘋果</td>
+            <td>3</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">@Html.DisplayNameFor(p=>p.Name)</th>
+            <th scope="col">@Html.DisplayNameFor(p=>p.Count)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(p => item.Name)</td>
+                <td>@Html.DisplayFor(p => item.Count)</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
