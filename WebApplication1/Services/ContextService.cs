@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebApplication1.Services
 {
@@ -33,15 +34,23 @@ namespace WebApplication1.Services
             return true;
         }
 
-        public string GetRquestHeaderLocale()
+        public async Task<string> GetRquestHeaderLocale()
         {
             var context = _contextHelper.GetContext();
+
+            var rnd = new Random(DateTime.Now.Millisecond);
+            var second = rnd.Next(10) * 1000;
+            await Task.Delay(second);
 
             _ = context.Request.Headers.TryGetValue("locale", out var locale);
 
             if (!String.IsNullOrEmpty(locale)) return locale;
 
             _ = context.Request.Query.TryGetValue("locale", out locale);
+
+
+
+
 
             return locale;
         }

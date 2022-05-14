@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebApplication1.Models;
 using WebApplication1.Models.ApiModels;
 using WebApplication1.Services;
@@ -36,9 +37,9 @@ namespace WebApplication1.Controllers.api
         }
 
         [HttpGet("Get/Request/Header/Locale")]
-        public IActionResult GetRequestHeaderLocaleValue()
+        public async Task<IActionResult> GetRequestHeaderLocaleValue()
         {
-            var locale = _contextService.GetRquestHeaderLocale();
+            var locale = await _contextService.GetRquestHeaderLocale();
             return Ok(locale);
         }
     }
