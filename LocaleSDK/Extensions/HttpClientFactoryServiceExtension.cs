@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using Microsoft.Extensions.Http;
-using System.Collections.Generic;
-using System.Text;
 using System.Net.Http;
 using System.Threading;
 

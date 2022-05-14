@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace WebApplication1.Models.ApiModels
+﻿namespace WebApplication1.Models.ApiModels
 {
     public class SetResponseHeadersModel
     {
