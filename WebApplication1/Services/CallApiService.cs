@@ -17,7 +17,7 @@ namespace WebApplication1.Services
         {
             var url = "https://localhost:5001/api/locale/Get/Request/Header/Locale";
 
-            var client = _clientFactory.CreateClient("locale");
+            var client = _clientFactory.CreateClient("customer");
 
             ////測試用
             //Thread.CurrentThread.CurrentCulture = new CultureInfo("en");

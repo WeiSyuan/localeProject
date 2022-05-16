@@ -57,8 +57,8 @@ namespace WebApplication1
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // 多語系設定
-            app.UseLocale();
+            // 透傳參數與多語系設定
+            app.UsePassThroughAndLocale();
 
             app.UseEndpoints(endpoints =>
             {
