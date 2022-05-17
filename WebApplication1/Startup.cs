@@ -54,11 +54,16 @@ namespace WebApplication1
 
             app.UseRouting();
 
+
+            //粂╰砞﹚
+            app.UseCultureBindingLocale();
+
+            // 硓肚把计籔粂╰砞﹚
+            app.UsePassThrough();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // 硓肚把计籔粂╰砞﹚
-            app.UsePassThroughAndLocale();
 
             app.UseEndpoints(endpoints =>
             {
