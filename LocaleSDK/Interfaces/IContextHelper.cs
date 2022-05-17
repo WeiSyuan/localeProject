@@ -18,5 +18,11 @@ namespace LocaleSDK.Interfaces
         /// <param name="name"></param>
         /// <returns></returns>
         T GetContextItem<T>(string name);
+        /// <summary>
+        /// 取得對應的ContextItem值回傳字串
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        string GetContextItem(string name);
     }
 }

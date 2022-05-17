@@ -34,5 +34,17 @@ namespace LocaleSDK.Helpers
             _accessor.HttpContext.Items.TryGetValue(name.ToLower(), out object itemValue);
             return (T)itemValue;
         }
+
+        /// <summary>
+        /// 取得對應的ContextItem值回傳字串
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string GetContextItem(string name)
+        {
+            _accessor.HttpContext.Items.TryGetValue(name.ToLower(), out object itemValue);
+            if (itemValue == null) return "";
+            return itemValue.ToString();
+        }
     }
 }
