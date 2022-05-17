@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LocaleSDK.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApplication1.Models;
 using WebApplication1.Models.ApiModels;
 using WebApplication1.Services;
 
@@ -14,15 +14,18 @@ namespace WebApplication1.Controllers.api
     public class LocaleController : ControllerBase
     {
         private readonly ContextService _contextService;
-        public LocaleController(ContextService contextService)
+        private readonly IContextHelper _contextHelper;
+        public LocaleController(ContextService contextService, IContextHelper _contextHelper)
         {
             this._contextService = contextService;
+            this._contextHelper = _contextHelper;
         }
 
         [HttpGet]
         public IActionResult GetNowLocale()
         {
-            return Ok(CultureModels.locale);
+            var locale = _contextHelper.GetContextItem<string>("locale");
+            return Ok(locale);
         }
 
         [HttpPost("Set/Response/Headers")]
