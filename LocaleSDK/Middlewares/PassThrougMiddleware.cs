@@ -4,33 +4,31 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
 using System.Threading.Tasks;
 
 
 namespace LocaleSDK.Middlewares
 {
     /// <summary>
-    /// 透傳參數設定與多語系 Middleware 擴充
+    /// 透傳參數設定 Middleware 擴充
     /// </summary>
-    public static class LocaleMiddlewareExtension
+    public static class PassThroughMiddlewareExtension
     {
-        public static void UsePassThroughAndLocale(this IApplicationBuilder app)
+        public static void UsePassThrough(this IApplicationBuilder app)
         {
-            app.UseMiddleware<PassThroughAndLocaleMiddleware>();
+            app.UseMiddleware<PassThrougMiddleware>();
         }
     }
 
     /// <summary>
-    /// 透傳參數設定與多語系Middleware，依照header與appsettting相關區段來進行對應設定
+    /// 透傳參數設定，依照header與appsettting相關區段來進行對應設定
     /// </summary>
-    public class PassThroughAndLocaleMiddleware
+    public class PassThrougMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly IConfiguration _config;
 
-        public PassThroughAndLocaleMiddleware(RequestDelegate next, IConfiguration configurationSettings)
+        public PassThrougMiddleware(RequestDelegate next, IConfiguration configurationSettings)
         {
             _next = next;
             _config = configurationSettings;
@@ -39,8 +37,7 @@ namespace LocaleSDK.Middlewares
         public async Task InvokeAsync(HttpContext context)
         {
             var passThroughOptions = _config.GetSection("PassThroughOptions").Get<IEnumerable<PassThroughOptions>>();
-            var isCurrentThreadUIBinding = _config.GetSection("IsCurrentUIBindingLocale").Get<bool>();
-            if (passThroughOptions != null) PassThroughProcess(context, passThroughOptions, isCurrentThreadUIBinding);
+            if (passThroughOptions != null) PassThroughProcess(context, passThroughOptions);
             await _next(context);
         }
 
@@ -51,7 +48,7 @@ namespace LocaleSDK.Middlewares
         /// <param name="context"></param>
         /// <param name="options"></param>
         /// <param name="isCurrentThreadUIBinding"></param>
-        private void PassThroughProcess(HttpContext context, IEnumerable<PassThroughOptions> options, bool isCurrentThreadUIBinding = false)
+        private void PassThroughProcess(HttpContext context, IEnumerable<PassThroughOptions> options)
         {
             foreach (var item in options)
             {
@@ -71,23 +68,10 @@ namespace LocaleSDK.Middlewares
                 if (String.IsNullOrEmpty(defaultValue)) continue;
 
                 context.Items[item.ParamName.ToLower()] = defaultValue;
-
-                if (item.IsPass) context.Response.Headers.Add(item.ParamName, defaultValue);
-                
-                if (item.ParamName.ToLower() == "locale" && isCurrentThreadUIBinding) SetCurrentUICulture(defaultValue);
+                if (item.IsPass) context.Response.Headers.TryAdd(item.ParamName, defaultValue);
             }
         }
 
-        private void SetCurrentUICulture(string locale)
-        {
-            try
-            {
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo(locale);
-            }
-            catch (Exception)
-            {
 
-            }
-        }
     }
 }
